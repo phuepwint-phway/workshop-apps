@@ -13,7 +13,7 @@ commonLabels:
 images:
   - name: pos-app
     newName: ghcr.io/zawthanoo/pos-app
-    newTag: 1.0.0-8-07fb7e
+    newTag: 8-5afbb15
 
 replicas:
   - name: pos-app

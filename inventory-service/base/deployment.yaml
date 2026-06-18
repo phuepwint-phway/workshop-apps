@@ -2,6 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: inventory-service
+  labels:
+    #    pipelinesascode.tekton.dev/on-event: pull_request
+    #    pipelinesascode.tekton.dev/on-target-branch: devteam
+    #    repo_name: inventory-service
+    app: inventory-service
 spec:
   replicas: 1
   selector:
@@ -15,29 +20,53 @@ spec:
       containers:
         - name: inventory-service
           image: inventory-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3002
-          envFrom:
-            - configMapRef:
-                name: inventory-service-config
-            - secretRef:
-                name: inventory-service-secret
-          resources:
-            requests:
-              cpu: 200m
-              memory: 256Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
+            - containerPort: 8082
+              protocol: TCP
           readinessProbe:
             httpGet:
-              path: /api/products
-              port: 3002
-            initialDelaySeconds: 30
-            periodSeconds: 10
+              path: /spring-hello/actuator/health/readiness
+              port: 8082
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 15
           livenessProbe:
             httpGet:
-              path: /api/products
-              port: 3002
-            initialDelaySeconds: 45
+              path: /spring-hello/actuator/health/liveness
+              port: 8082
+              scheme: HTTP
+            initialDelaySeconds: 15
             periodSeconds: 15
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          envFrom:
+            - configMapRef:
+                name: inventory-service
+          resources:
+            requests:
+              memory: 1024Mi
+          volumeMounts:
+            - name: inventory-service-config-volume
+              readOnly: true
+              mountPath: "/opt/mutu/config/application_config_override.yaml"
+              subPath: application_config_override.yaml
+            - name: inventory-service-secret-config-volume
+              readOnly: true
+              mountPath: "/opt/mutu/config/application_secret_override.yaml"
+              subPath: application_secret_override.yaml
+      imagePullSecrets:
+        - name: ghcr-io-registry
+      volumes:
+        - name: inventory-service-secret-config-volume
+          secret:
+            secretName: inventory-service
+        - name: inventory-service-config-volume
+          configMap:
+            name: inventory-service
+            items:
+              - key: application_config_override.yaml
+                path: application_config_override.yaml

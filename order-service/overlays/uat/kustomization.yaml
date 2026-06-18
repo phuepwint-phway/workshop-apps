@@ -12,7 +12,7 @@ commonLabels:
 images:
   - name: order-service
     newName: ghcr.io/zawthanoo/order-service
-    newTag: 1.0.0-8-07fb7e
+    newTag: 2-83fb83f
 
 replicas:
   - name: order-service
