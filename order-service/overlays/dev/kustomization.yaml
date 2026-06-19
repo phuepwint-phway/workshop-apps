@@ -9,7 +9,7 @@ labels:
 images:
   - name: order-service
     newName: ghcr.io/zawthanoo/order-service
-    newTag: 7-f798a3a
+    newTag: 8-be7a6f1
 replicas:
   - name: order-service
     count: 1
