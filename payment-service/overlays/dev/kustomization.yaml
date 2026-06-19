@@ -9,7 +9,7 @@ labels:
 images:
   - name: payment-service
     newName: ghcr.io/zawthanoo/payment-service
-    newTag: local
+    newTag: 3-46098dc
 replicas:
   - name: payment-service
     count: 1
