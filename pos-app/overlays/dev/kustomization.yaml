@@ -9,7 +9,7 @@ labels:
       env: dev
 images:
   - name: pos-app
-    newName: ghcr.io/zawthanoo/pos-app
+    newName: ghcr.io/phuepwint-phway/pos-app:3-851532e
     newTag: 18-c7c2a8f
 replicas:
   - name: pos-app

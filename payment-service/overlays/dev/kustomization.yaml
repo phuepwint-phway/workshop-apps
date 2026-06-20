@@ -8,7 +8,7 @@ labels:
       env: dev
 images:
   - name: payment-service
-    newName: ghcr.io/zawthanoo/payment-service
+    newName: ghcr.io/phuepwint-phway/payment-service:2-a241ad0
     newTag: 3-46098dc
 replicas:
   - name: payment-service

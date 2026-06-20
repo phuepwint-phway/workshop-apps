@@ -8,7 +8,7 @@ labels:
       env: dev
 images:
   - name: order-service
-    newName: ghcr.io/zawthanoo/order-service
+    newName: ghcr.io/phuepwint-phway/order-service:4-f1243b9
     newTag: 8-be7a6f1
 replicas:
   - name: order-service
